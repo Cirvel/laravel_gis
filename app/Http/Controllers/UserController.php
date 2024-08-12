@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Stevebauman\Location\Facades\Location;
 
 class UserController extends Controller
 {
@@ -40,8 +41,8 @@ class UserController extends Controller
             return redirect()->route('crud')->with("success","Account successfully logged in.");
         }
         
-        return redirect()->route('login')->with("error","Invalid username or password.");
-        // return redirect("")->with("error","Invalid username or password.");
+        return redirect()->route('login')->withErrors("Invalid username or password.");
+        // return redirect()->route('login', ['currentUserInfo' => compact($currentUserInfo)]);
     }
 
     /**

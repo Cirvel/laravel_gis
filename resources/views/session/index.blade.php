@@ -13,6 +13,15 @@
 </head>
 
 <body>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div class="justify-content-center align-content-center vh-100">
         <form action="{{ route('auth') }}" method="post" class="container-sm card border-0 form-body">
             @csrf

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Stevebauman\Location\Facades\Location;
 
 class RestaurantController extends Controller
 {
@@ -136,7 +138,15 @@ class RestaurantController extends Controller
     {
         // only available to ajax requests
         if ($request->ajax()) {
+            // $currentUserInfo = Location::get('182.2.165.212');
+            // $latitude = $currentUserInfo->latitude;
+            // $longitude = $currentUserInfo->longitude;
+
             $data = Restaurant::where($request->filter, 'like', '%' . $request->search . '%')->orderBy($request->filter, 'asc')->get();
+            // $data = Restaurant::select(DB::raw('*, ( 6367 * acos( cos( radians('.$latitude.') ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians('.$longitude.') ) + sin( radians('.$latitude.') ) * sin( radians( latitude ) ) ) ) AS distance'))
+            // ->having('distance', '<', 25)
+            // ->orderBy('distance')
+            // ->get();
 
             $output = '';
 
@@ -157,7 +167,7 @@ class RestaurantController extends Controller
                     <div class="card-body">
                         <div class="card-text float">
                             <div class="img-fluid float-end">
-                                <img class="object-contain" src="/assets/images/'. $item->image .'" width="128"
+                                <img class="object-contain" src="/assets/images/' . $item->image . '" width="128"
                                     height="128" alt="">
                             </div>
                             ' .
@@ -199,14 +209,14 @@ class RestaurantController extends Controller
                     <div class="modal-content" id="modalean">
                         <div class="modal-header">
                             <h5 class="modal-title" id="modalTitleId">
-                                '. $data->name .'
+                                ' . $data->name . '
                             </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">'. $data->menu .'</div>
+                        <div class="modal-body">' . $data->menu . '</div>
                         <div class="modal-footer">
                             <div>
-                                '. $data->latitude .', '. $data->longitude .'
+                                ' . $data->latitude . ', ' . $data->longitude . '
                             </div>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                 Close

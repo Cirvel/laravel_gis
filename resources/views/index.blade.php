@@ -46,7 +46,6 @@
         <div class="col" id="google-map">
             {{-- Google Map API --}}
             <div class="container card vh-100" id="map">
-                Google map here
             </div>
             {{-- <iframe id="psp"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2312.645973820296!2d106.75949785261639!3d-6.393582888097098!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69e8da91695879%3A0xc01092d7a22eb1e1!2sLapangan%20Bola%20PSP!5e0!3m2!1sen!2sid!4v1722992158410!5m2!1sen!2sid"
