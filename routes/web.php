@@ -13,8 +13,8 @@ Route::get('/crud', function () {
 })->name("crud")->middleware("auth");
 // Route::resource('restaurants', RestaurantController::class);
 Route::resource('restaurants', RestaurantController::class)->middleware("auth");
-Route::get('restaurants.search',    [RestaurantController::class, 'search'])->name('restaurants.search')->middleware("auth"); // main page
-Route::get('restaurants.popup',    [RestaurantController::class, 'popup'])->name('restaurants.popup')->middleware("auth"); // main page
+Route::get('restaurants.search',    [RestaurantController::class, 'search'])->name('restaurants.search'); // main page
+Route::get('restaurants.popup',    [RestaurantController::class, 'popup'])->name('restaurants.popup'); // main page
 
 // Session
 Route::get('login',    [UserController::class, 'index'])->name('login'); // main page

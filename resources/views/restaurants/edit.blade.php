@@ -29,7 +29,9 @@
 
         <div class="container-sm card border-0 form-body">
 
-            <form action="{{ route('restaurants.destroy', $data->id) }}" class="d-flex">
+            <form action="{{ route('restaurants.destroy', $data->id) }}" method="POST" class="d-flex">
+                @csrf
+                @method('delete')
                 <button type="submit" class="btn btn-danger text-uppercase ms-auto mb-3">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                     <span class="d-none d-md-inline">

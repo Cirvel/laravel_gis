@@ -138,61 +138,26 @@ class RestaurantController extends Controller
     {
         // only available to ajax requests
         if ($request->ajax()) {
+            $maxDistance = 25; // the latitude/longitude distance required to display, anything farther than that will not be displayed
+
             // $currentUserInfo = Location::get('182.2.165.212');
             // $latitude = $currentUserInfo->latitude;
             // $longitude = $currentUserInfo->longitude;
+            $latitude = $request->latitude;
+            $longitude = $request->longitude;
 
-            $data = Restaurant::where($request->filter, 'like', '%' . $request->search . '%')->orderBy($request->filter, 'asc')->get();
-            // $data = Restaurant::select(DB::raw('*, ( 6367 * acos( cos( radians('.$latitude.') ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians('.$longitude.') ) + sin( radians('.$latitude.') ) * sin( radians( latitude ) ) ) ) AS distance'))
-            // ->having('distance', '<', 25)
-            // ->orderBy('distance')
-            // ->get();
+            // $data = Restaurant::where($request->filter, 'like', '%' . $request->search . '%')->orderBy($request->filter, 'asc')->get();
+            $data = Restaurant::select(DB::raw('*, ( 6367 * acos( cos( radians('.$latitude.') ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians('.$longitude.') ) + sin( radians('.$latitude.') ) * sin( radians( latitude ) ) ) ) AS distance'))
+            ->where($request->filter, 'like', '%'. $request->search .'%')
+            ->having('distance', '<', $maxDistance)
+            ->orderBy('distance')
+            ->get();
+            // ->toArray();
+            // $data = Restaurant::findOrFail("1");
+            // ->paginate(5);
 
-            $output = '';
-
-            if (count($data) > 0) {
-                $output = '
-            <div class="container-lg" id="search-list">';
-                foreach ($data as $item) {
-                    $output .= '
-                <div class="card mb-3">
-                    <div class="card-header d-flex">
-                        <div class="card-title">' . $item->name . '</div>
-                        <div class="ms-auto">
-                            <button class="btn btn-info" onclick="popUp(' . $item->id . ')" id="popBtn" data-bs-toggle="modal" data-bs-target="#popUp">
-                                <i class="fa fa-pizza-slice" aria-hidden="true"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-text float">
-                            <div class="img-fluid float-end">
-                                <img class="object-contain" src="/assets/images/' . $item->image . '" width="128"
-                                    height="128" alt="">
-                            </div>
-                            ' .
-                        $item->description
-                        . '
-                        </div>
-                    </div>
-                    <div class="card-footer d-flex">
-                        <div class="card-text">
-                            ' .
-                        $item->address
-                        . '
-                        </div>
-                        <div class="ms-auto">
-                            <button onclick="relocate(' . $item->latitude . ',' . $item->longitude . ')" class="btn btn-success" title="Pinpoint location on map">
-                                <i class="fa fa-map-marked" aria-hidden="true"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>';
-                }
-                '</div>
-                ';
-            }
-            return $output;
+            // return json_encode($data);
+            return $data;
         }
     }
     /**
@@ -204,28 +169,7 @@ class RestaurantController extends Controller
         if ($request->ajax()) {
             $data = Restaurant::findOrFail($request->id);
 
-            if ($data) {
-                $output = '
-                    <div class="modal-content" id="modalean">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalTitleId">
-                                ' . $data->name . '
-                            </h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">' . $data->menu . '</div>
-                        <div class="modal-footer">
-                            <div>
-                                ' . $data->latitude . ', ' . $data->longitude . '
-                            </div>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                Close
-                            </button>
-                        </div>
-                    </div>
-                ';
-            }
-            return $output;
+            return $data;
         }
     }
 }

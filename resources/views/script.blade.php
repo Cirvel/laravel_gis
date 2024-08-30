@@ -1,90 +1,20 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="http://maps.googleapis.com/maps/api/js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
 </script>
 
 <script type="text/javascript">
-    function relocate(lat, lng) {
-        // alert("latitude : " + lat + ", longitude : " + lng);
-        moveToLocation(lat, lng)
-    }
+    var greenIcon = L.icon({
+    iconUrl: '{{ asset('assets/markers/self-icon.png') }}',
+    shadowUrl: '{{ asset('leaflet/images/marker-shadow.png') }}',
 
-    function search() {
-        $.ajax({ // Ajax script
-            url: "{{ route('restaurants.search') }}", // Route
-            type: "GET", // Method
-            data: {
-                'search': $('#search-text').val(),
-                'filter': $('#filter').val(),
-            },
-            success: function(data) { // If process has no error..
-                alert(data); 
-                $('#search-list').html(data); // Replace row display for data table
-            },
-            error: function(message, error) {
-                alert("Error code : ".message.status);
-            }
-        })
-    }
-
-    function popUp(id) {
-        $.ajax({ // Ajax script
-            url: "{{ route('restaurants.popup') }}", // Route
-            type: "GET", // Method
-            data: {
-                'id': id,
-            },
-            success: function(data) { // If process has no error..
-                // alert(data); 
-                $('#modalean').html(data); // Replace row display for data table
-            },
-            error: function(message, error) {
-                alert("Error code : ".message.status);
-            }
-        })
-    }
-
-    $('#search-btn').on('click', function() {
-        search();
-    });
-
-    let map;
-
-    async function initMap(latitude, longitude) {
-        const {
-            Map
-        } = await google.maps.importLibrary("maps");
-        // const {
-        //     AdvancedMarkerElement
-        // } = await google.maps.importLibrary("marker");
-
-        map = new Map(document.getElementById("map"), {
-            center: {
-                lat: latitude,
-                lng: longitude
-            },
-            zoom: 36,
-        });
-    }
-
-    function moveToLocation(lat, lng) {
-        const center = new google.maps.LatLng(lat, lng);
-        // using global variable:
-        map.panTo(center);
-
-        // const marker = new AdvancedMarkerElement({
-        //     map: map,
-        //     position: {
-        //         lat: lat,
-        //         lng: lng
-        //     },
-        //     title: "Uluru",
-        // });
-    }
-
-    initMap(0, 0);
-    window.onload = search();
+    // iconSize:     [38, 95], // size of the icon
+    // shadowSize:   [50, 64], // size of the shadow
+    iconAnchor:   [12.5, 40], // point of the icon which will correspond to marker's location
+    // shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor:  [0, -36] // point from which the popup should open relative to the iconAnchor
+});
 </script>
