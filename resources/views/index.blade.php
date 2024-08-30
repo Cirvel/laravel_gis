@@ -46,8 +46,8 @@
 
 <body>
     <div class="row m-0">
-        <div class="col-12 col-md-6 card mb-2" id="map">
-            <div class="h-100 d-flex justify-content-center align-items-center">
+        <div class="col-12 col-md-6 container mb-2">
+            <div class="d-flex justify-content-center align-items-center card" id="map">
                 <div class="spinner-border text-primary spinner-border-lg" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
