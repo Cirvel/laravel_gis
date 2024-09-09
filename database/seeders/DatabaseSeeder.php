@@ -19,11 +19,12 @@ class DatabaseSeeder extends Seeder
         $userAdmin['password'] = bcrypt("geozzaadmin123");
         $userAdmin['email'] = "admin@gmail.com";
         // $userAdmin['no_telp'] = "1080-2307-821";
-        User::factory()->create($userAdmin);
+        User::create($userAdmin);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        DB::table('users')->insert([
+            'name' => "geozzaadmin",
+            'email' => Str::random(10).'@example.com',
+            'password' => bcrypt("geozzaadmin123"),
         ]);
     }
 }
